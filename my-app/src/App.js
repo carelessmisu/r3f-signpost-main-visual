@@ -69,13 +69,13 @@ const Scene = () => {
 
   const meshRef = useRef();
   const simplex = createNoise3D();
-  const hover = useRef({ speed: 1, processing: 1 });
+  const hover = useRef({ speed: 1, spike: 1, processing: 1 });
   // const [hover, setHover] = useState({ speed: 1, processing: 1 });
 
   useFrame(({ clock, mouse }) => {
     // let speedSlider = speed;
     let speedSlider = speed * hover.current.speed;
-    let spikesSlider = spike;
+    let spikesSlider = spike * hover.current.spike;
     // let processingSlider = processing;
     let processingSlider = processing * hover.current.processing;
 
@@ -136,6 +136,8 @@ const Scene = () => {
           // マウスホバー時にspeedとprocessingの値を増やす
           // hover.current.speed = 1.2; // 例として2倍に増やす
           hover.current.speed = THREE.MathUtils.lerp(1, 2, 0.1);
+          hover.current.spike = THREE.MathUtils.lerp(1, 1.2, 0.05);
+
           // hover.current.processing = 1.3; // 例として1.5倍に増やす
           hover.current.processing = THREE.MathUtils.lerp(1, 2, 0.1);
           // setHover({ speed: 1.2, processing: 1.2 });
@@ -147,10 +149,15 @@ const Scene = () => {
             1,
             0.1
           );
-          hover.current.processing = THREE.MathUtils.lerp(
-            hover.current.speed,
+          hover.current.spike = THREE.MathUtils.lerp(
+            hover.current.spike,
             1,
-            0.3
+            0.1
+          );
+          hover.current.processing = THREE.MathUtils.lerp(
+            hover.current.processing,
+            1,
+            0.1
           );
           // setHover({ speed: 1, processing: 1 });
         }}
