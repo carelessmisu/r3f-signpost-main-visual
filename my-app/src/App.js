@@ -173,28 +173,28 @@ const TransparentScene = () => {
     colorC,
     colorD,
     colorE,
-    speed1,
-    spike1,
-    processing1,
+    clear_speed,
+    clear_spike,
+    clear_processing,
   } = useControls({
     colorA: "#fd038d",
     colorB: "#f005fc",
     colorC: "#8c10b7",
     colorD: "#4ac1c7",
     colorE: "#f99718",
-    speed1: {
+    clear_speed: {
       value: 32,
       min: 10,
       max: 120,
       step: 1,
     },
-    spike1: {
+    clear_spike: {
       value: 0.6,
       min: 0.05,
       max: 2,
       step: 0.05,
     },
-    processing1: {
+    clear_processing: {
       value: 1,
       min: 0.6,
       max: 2.4,
@@ -229,9 +229,9 @@ const TransparentScene = () => {
   const simplex = createNoise3D();
 
   useFrame(({ clock }) => {
-    let speedSlider = speed1;
-    let spikesSlider = spike1;
-    let processingSlider = processing1;
+    let speedSlider = clear_speed;
+    let spikesSlider = clear_spike;
+    let processingSlider = clear_processing;
     let time =
       performance.now() * 0.00001 * speedSlider * Math.pow(processingSlider, 3);
     let spikes = spikesSlider * processingSlider;
