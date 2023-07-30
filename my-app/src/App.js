@@ -99,12 +99,12 @@ const Scene = () => {
 
     meshRef.current.position.y = THREE.MathUtils.lerp(
       meshRef.current.position.y,
-      mouse.y * 0.1,
+      mouse.y * 0.2,
       0.1
     );
     meshRef.current.position.x = THREE.MathUtils.lerp(
       meshRef.current.position.x,
-      mouse.x * 0.1,
+      mouse.x * 0.2,
       0.1
     );
 
