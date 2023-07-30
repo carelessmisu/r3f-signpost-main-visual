@@ -22,7 +22,7 @@ const Scene = () => {
         step: 1,
       },
       spike: {
-        value: 0.8,
+        value: 0.6,
         min: 0.05,
         max: 2,
         step: 0.05,
@@ -69,23 +69,15 @@ const Scene = () => {
 
   const meshRef = useRef();
   const simplex = createNoise3D();
-  const hover = useRef({ speed: 1, spike: 1, processing: 1 });
-  // const [hover, setHover] = useState({ speed: 1, processing: 1 });
+  const [hover, setHover] = useState({ speed: 1, spike: 1});
 
   useFrame(({ clock, mouse }) => {
-    // let speedSlider = speed;
-    let speedSlider = speed * hover.current.speed;
-    let spikesSlider = spike * hover.current.spike;
-    // let processingSlider = processing;
-    let processingSlider = processing * hover.current.processing;
+    let speedSlider = speed;
+    let spikesSlider = spike;
+    let processingSlider = processing;
 
-    // hoverの値を元の値から目標値に向かって滑らかに変化させる
-    // speedSlider = THREE.MathUtils.lerp(speedSlider, speed * hover.speed, 0.05);
-    // processingSlider = THREE.MathUtils.lerp(
-    //   processingSlider,
-    //   processing * hover.processing,
-    //   0.05
-    // );
+    speedSlider = THREE.MathUtils.lerp(speedSlider, speedSlider * hover.speed, 0.5);
+    spikesSlider = THREE.MathUtils.lerp(spikesSlider, spikesSlider * hover.speed, 0.5);
 
     let time =
       performance.now() * 0.00001 * speedSlider * Math.pow(processingSlider, 3);
@@ -107,12 +99,12 @@ const Scene = () => {
 
     meshRef.current.position.y = THREE.MathUtils.lerp(
       meshRef.current.position.y,
-      mouse.x * 0.5,
+      mouse.y * 0.1,
       0.1
     );
     meshRef.current.position.x = THREE.MathUtils.lerp(
       meshRef.current.position.x,
-      mouse.y * 0.5,
+      mouse.x * 0.1,
       0.1
     );
 
@@ -125,6 +117,7 @@ const Scene = () => {
 
     position.needsUpdate = true;
     geometry.computeVertexNormals();
+
   });
 
   return (
@@ -132,34 +125,11 @@ const Scene = () => {
       <mesh
         ref={meshRef}
         scale={[1.2, 1, 1]}
-        onPointerMove={(e) => {
-          // マウスホバー時にspeedとprocessingの値を増やす
-          // hover.current.speed = 1.2; // 例として2倍に増やす
-          hover.current.speed = THREE.MathUtils.lerp(1, 2, 0.1);
-          hover.current.spike = THREE.MathUtils.lerp(1, 1.2, 0.05);
-
-          // hover.current.processing = 1.3; // 例として1.5倍に増やす
-          hover.current.processing = THREE.MathUtils.lerp(1, 2, 0.1);
-          // setHover({ speed: 1.2, processing: 1.2 });
+        onPointerOver={(e) => {
+          setHover({ speed: 2, spike: 1.2});
         }}
         onPointerOut={() => {
-          // マウスがジオメトリから外れたら元の値に戻す
-          hover.current.speed = THREE.MathUtils.lerp(
-            hover.current.speed,
-            1,
-            0.1
-          );
-          hover.current.spike = THREE.MathUtils.lerp(
-            hover.current.spike,
-            1,
-            0.1
-          );
-          hover.current.processing = THREE.MathUtils.lerp(
-            hover.current.processing,
-            1,
-            0.1
-          );
-          // setHover({ speed: 1, processing: 1 });
+          setHover({ speed: 1, spike: 1});
         }}
       >
         <sphereGeometry args={[0.8, 256, 256]} />
@@ -190,13 +160,13 @@ const TransparentScene = () => {
     colorD: "#4ac1c7",
     colorE: "#f99718",
     clear_speed: {
-      value: 32,
+      value: 20,
       min: 10,
       max: 120,
       step: 1,
     },
     clear_spike: {
-      value: 0.6,
+      value: 0.75,
       min: 0.05,
       max: 2,
       step: 0.05,
