@@ -16,13 +16,13 @@ const Scene = () => {
       colorD: "#4ac1c7",
       colorE: "#f99718",
       speed: {
-        value: 32,
+        value: 42,
         min: 10,
         max: 120,
         step: 1,
       },
       spike: {
-        value: 0.6,
+        value: 0.5,
         min: 0.05,
         max: 2,
         step: 0.05,
@@ -160,19 +160,19 @@ const TransparentScene = () => {
     colorD: "#4ac1c7",
     colorE: "#f99718",
     clear_speed: {
-      value: 20,
+      value: 17,
       min: 10,
       max: 120,
       step: 1,
     },
     clear_spike: {
-      value: 0.75,
+      value: 0.6,
       min: 0.05,
       max: 2,
       step: 0.05,
     },
     clear_processing: {
-      value: 1,
+      value: 0.9,
       min: 0.6,
       max: 2.4,
       step: 0.1,

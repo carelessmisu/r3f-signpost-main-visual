@@ -130,7 +130,7 @@ void main() {
 
   float noiseValue = snoise(vec3(timeModifiedU, timeModifiedV, 0.0));
   float t = smoothstep(0.4, 0.6, (noiseValue + 1.0) * 0.5);
-  float t2 = smoothstep(0.4, 0.7, (noiseValue + 1.0) * 0.5);
+  float t2 = smoothstep(0.5, 0.7, (noiseValue + 1.0) * 0.5);
   float t3 = smoothstep(0.6, 0.8, (noiseValue + 1.0) * 0.5);
   float t4 = smoothstep(0.7, 0.9, (noiseValue + 1.0) * 0.5);
 
