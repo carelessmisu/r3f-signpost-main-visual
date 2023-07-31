@@ -8,7 +8,11 @@ import fragmentShader_transParent from "./fragment_transparent";
 import vertexShader from "./vertex";
 
 const Scene = () => {
-  const { colorA, colorB, colorC, colorD, colorE, speed, spike, processing } =
+
+  const [hover, setHover] = useState({ speed: 1, spike: 1});
+
+
+  const { colorA, colorB, colorC, colorD, colorE, speed, spike, processing, hoverSpeed, hoverSpike } =
     useControls({
       colorA: "#fd038d",
       colorB: "#f005fc",
@@ -33,6 +37,18 @@ const Scene = () => {
         max: 2.4,
         step: 0.1,
       },
+      hoverSpeed: {
+        value: 1.1,
+        min: 1,
+        max: 3,
+        step: 0.01,
+      },
+      hoverSpike: {
+        value: 1.1,
+        min: 1,
+        max: 3,
+        step: 0.01,
+      }
     });
 
   const uniforms = useMemo(() => {
@@ -69,15 +85,14 @@ const Scene = () => {
 
   const meshRef = useRef();
   const simplex = createNoise3D();
-  const [hover, setHover] = useState({ speed: 1, spike: 1});
 
   useFrame(({ clock, mouse }) => {
     let speedSlider = speed;
     let spikesSlider = spike;
     let processingSlider = processing;
 
-    speedSlider = THREE.MathUtils.lerp(speedSlider, speedSlider * hover.speed, 0.5);
-    spikesSlider = THREE.MathUtils.lerp(spikesSlider, spikesSlider * hover.speed, 0.5);
+    speedSlider = speedSlider * hover.speed;
+    spikesSlider =  spikesSlider * hover.spike;
 
     let time =
       performance.now() * 0.00001 * speedSlider * Math.pow(processingSlider, 3);
@@ -126,7 +141,7 @@ const Scene = () => {
         ref={meshRef}
         scale={[1.2, 1, 1]}
         onPointerOver={(e) => {
-          setHover({ speed: 2, spike: 1.2});
+          setHover({ speed: hoverSpeed, spike: hoverSpike});
         }}
         onPointerOut={() => {
           setHover({ speed: 1, spike: 1});
